@@ -1,4 +1,4 @@
-package com.dataproject.yorha.model.android;
+package com.dataproject.yorha.model;
 
 import lombok.Getter;
 

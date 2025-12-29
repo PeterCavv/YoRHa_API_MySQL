@@ -1,10 +1,14 @@
-package com.dataproject.yorha.model.android;
+package com.dataproject.yorha.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity(name = "androids")
 @AllArgsConstructor
@@ -21,21 +25,26 @@ public class Android {
     private String description;
     private String model;
     private String appearance;
-    @ManyToOne
-    private Type type_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id", nullable = false)
+    private Type type;
+    @CreationTimestamp
+    private Timestamp created_at;
+    @UpdateTimestamp
+    private Timestamp updated_at;
 
     public String getName() {
         if (this.model.equals("YoRHa")) {
             return "YoRHa Nº " + this.number
-                    + " Type " + this.type_id.name.charAt(0);
+                    + " Type " + this.type.getCode();
         }
-
         return this.model;
     }
 
-    public String gerShortName() {
+    public String getShortName() {
         if (this.model.equals("YoRHa")) {
-            
+            return String.valueOf(this.number) + this.type.getCode();
         }
+        return this.model;
     }
 }
