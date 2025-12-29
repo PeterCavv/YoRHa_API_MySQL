@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "androids")
 @AllArgsConstructor
@@ -19,17 +21,30 @@ public class Android {
     @Id
     @GeneratedValue
     private Long id;
+
     private int number;
+
     @Enumerated(EnumType.STRING)
     private Status status;
+
     private String description;
     private String model;
     private String appearance;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
     private Type type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "operator_id")
+    private Android operator;
+
+    @OneToMany(mappedBy = "operator")
+    private List<Android> assignedAndroids = new ArrayList<>();
+
     @CreationTimestamp
     private Timestamp created_at;
+
     @UpdateTimestamp
     private Timestamp updated_at;
 
