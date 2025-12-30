@@ -6,13 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "androids")
+@Entity
+@Table(name = "androids")
+@SQLDelete(sql = "UPDATE androids SET status = 'INACTIVE' WHERE id = ?")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -22,13 +25,18 @@ public class Android {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
     private int number;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     private String description;
+
+    @Column(nullable = false)
     private String model;
+
+    @Column(nullable = false)
     private String appearance;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,10 +51,15 @@ public class Android {
     private List<Android> assignedAndroids = new ArrayList<>();
 
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.status = Status.ACTIVE;
+    }
 
     public String getName() {
         if (this.model.equals("YoRHa")) {

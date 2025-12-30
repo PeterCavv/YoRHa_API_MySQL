@@ -7,7 +7,7 @@ public enum Status {
     ACTIVE("Operative"),
     INACTIVE("Out of service");
 
-    private String name;
+    private final String name;
 
     Status(String name) {
         this.name = name;

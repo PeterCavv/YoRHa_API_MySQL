@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "types")
+@Table(name = "weapon_types")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Type {
+public class WeaponType {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,26 +26,12 @@ public class Type {
     @Column(nullable = false)
     private String name;
 
-    private String description;
-
-    @OneToMany(mappedBy = "type_id")
-    private List<Android> androids = new ArrayList<>();
+    @OneToMany(mappedBy = "weapon_type_id")
+    private List<Weapon> weapons = new ArrayList<>();
 
     @CreationTimestamp
     private Timestamp createdAt;
 
     @UpdateTimestamp
     private Timestamp updatedAt;
-
-    public char getCode() {
-        return this.name.charAt(0);
-    }
-
-    public int getLastNumberType(String typeName) {
-        return this.androids.stream().filter(
-                        android -> android.getType().getName().equals(typeName))
-                .findFirst().orElseThrow(() ->
-                        new RuntimeException("No Android found for type: " + typeName)
-                ).getNumber();
-    }
 }

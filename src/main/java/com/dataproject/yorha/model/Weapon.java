@@ -5,18 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.sql.Timestamp;
 
 @Entity
-@Table(name = "appearances")
+@Table(name = "weapons")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Appearance {
+public class Weapon {
     @Id
     @GeneratedValue
     private Long id;
@@ -24,9 +20,9 @@ public class Appearance {
     @Column(nullable = false)
     private String name;
 
-    @CreationTimestamp
-    private Timestamp createdAt;
+    private String description;
 
-    @UpdateTimestamp
-    private Timestamp updatedAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "weapon_type_id", nullable = false)
+    private WeaponType weaponType;
 }
