@@ -9,7 +9,6 @@ CREATE TABLE `androids` (
   `operator_id` integer NULL,
   `created_at` timestamp,
   `updated_at` timestamp,
-  `deleted_at` timestamp
 );
 
 ALTER TABLE `androids`

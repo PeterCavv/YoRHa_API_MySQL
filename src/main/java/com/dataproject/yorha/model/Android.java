@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
@@ -15,14 +14,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "androids")
-@SQLDelete(sql = "UPDATE androids SET status = 'INACTIVE' WHERE id = ?")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class Android {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
@@ -59,6 +57,14 @@ public class Android {
     @PrePersist
     public void onCreate() {
         this.status = Status.ACTIVE;
+        this.number = this.generateTypeNumber();
+    }
+
+    public Android(String description, String model, String appearance, Type type) {
+        this.description = description;
+        this.model = model;
+        this.appearance = appearance;
+        this.type = type;
     }
 
     public String getName() {
@@ -74,5 +80,13 @@ public class Android {
             return String.valueOf(this.number) + this.type.getCode();
         }
         return this.model;
+    }
+
+    public void delete() {
+        this.status = Status.INACTIVE;
+    }
+
+    private int generateTypeNumber() {
+        return this.type.getAndroids().size() + 1;
     }
 }
