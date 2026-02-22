@@ -9,12 +9,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class GetOneAndroidDTO implements Serializable {
-    private final Long id;
-    private final String name;
-    private final String shortName;
-    private final String status;
-    private final String type;
-    private final String description;
+    private Long id;
+    private String name;
+    private String shortName;
+    private String status;
+    private String type;
+    private String description;
 
     public GetOneAndroidDTO(Android android) {
         this.id = android.getId();
