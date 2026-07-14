@@ -1,7 +1,7 @@
 package com.dataproject.yorha.repository;
 
 import com.dataproject.yorha.model.Android;
-import com.dataproject.yorha.model.Status;
+import com.dataproject.yorha.android.domain.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

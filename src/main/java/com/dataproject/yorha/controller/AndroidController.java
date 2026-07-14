@@ -2,13 +2,12 @@ package com.dataproject.yorha.controller;
 
 import com.dataproject.yorha.DTO.Android.GetAllAndroidDTO;
 import com.dataproject.yorha.DTO.Android.GetOneAndroidDTO;
+import com.dataproject.yorha.exception.ObjectNotFoundException;
 import com.dataproject.yorha.service.AndroidService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,10 +15,11 @@ import java.util.List;
 @RequestMapping(value = "/androids", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class AndroidController {
-
     private final AndroidService androidService;
 
-    public AndroidController(AndroidService androidService) {
+    public AndroidController(
+            AndroidService androidService
+    ) {
         this.androidService = androidService;
     }
 
@@ -36,7 +36,9 @@ public class AndroidController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GetOneAndroidDTO> findById(@PathVariable Long id) {
-        GetOneAndroidDTO dto = androidService.findById(id).isPresent();
+        GetOneAndroidDTO dto = androidService.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException("Android not found with ID: " + id)
+        );
         return ResponseEntity.ok(dto);
     }
 }

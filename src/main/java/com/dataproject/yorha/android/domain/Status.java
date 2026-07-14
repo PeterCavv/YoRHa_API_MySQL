@@ -1,4 +1,4 @@
-package com.dataproject.yorha.model;
+package com.dataproject.yorha.android.domain;
 
 import lombok.Getter;
 
@@ -11,5 +11,13 @@ public enum Status {
 
     Status(String name) {
         this.name = name;
+    }
+
+    boolean isOperative() {
+        return this == ACTIVE;
+    }
+
+    boolean isInactive() {
+        return this == INACTIVE;
     }
 }

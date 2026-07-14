@@ -1,7 +1,7 @@
 package com.dataproject.yorha.service;
 
 import com.dataproject.yorha.DTO.DashboardDTO;
-import com.dataproject.yorha.model.Status;
+import com.dataproject.yorha.android.domain.Status;
 import com.dataproject.yorha.repository.AndroidRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

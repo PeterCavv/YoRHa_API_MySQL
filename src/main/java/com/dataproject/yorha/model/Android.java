@@ -1,5 +1,6 @@
 package com.dataproject.yorha.model;
 
+import com.dataproject.yorha.android.domain.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
