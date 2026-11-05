@@ -150,3 +150,7 @@ Technical implementations and adapters toward the outside world (DB, messaging, 
 - Follow the folder structure exactly as documented above; do not create alternative folders (loose `services/`, `models/`, `dto/` outside their module, etc.).
 - If a request doesn't make clear which bounded context it belongs to, ask before assuming.
 - Do not change existing code unrelated to the requested task.
+
+## DDD migration in progress
+
+This project is being migrated to the structure above step by step. Read `docs/ddd-progress.md` at the start of each session: it holds the way of working (tutor mode, commit style), the design decisions taken and the current step. Update it at the end of each session.
