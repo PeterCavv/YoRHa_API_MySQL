@@ -7,44 +7,78 @@ import lombok.Getter;
 public class Android extends AggregateRoot<AndroidId> {
     private final int number;
     private Status status;
-    private String description;
+    private final String description;
     private final String model;
     private final String appearance;
     private final TypeId typeId;
-    private AndroidId operatorId;
+    private final AndroidId operatorId;
 
-    public Android(
-            AndroidId id,
+    private Android(
+        AndroidId id,
+        TypeId typeId,
+        AndroidId operatorId,
+        Status status,
+        int number,
+        String description,
+        String model,
+        String appearance
+    ) {
+        super(id);
+
+        validate(appearance, model, typeId);
+
+        this.number = number;
+        this.typeId = typeId;
+        this.operatorId = operatorId;
+        this.description = description;
+        this.model = model;
+        this.appearance = appearance;
+        this.status = status;
+    }
+
+    public static Android create(
             TypeId typeId,
             int number,
             String description,
             String model,
             String appearance
     ) {
-        super(id);
-
-        this.validate(appearance, model, typeId);
-
-        this.number = number;
-        this.typeId = typeId;
-        this.description = description;
-        this.model = model;
-        this.appearance = appearance;
-        this.status = Status.ACTIVE;
+        return new Android(
+                null,
+                typeId,
+                null,
+                Status.ACTIVE,
+                number,
+                description,
+                model,
+                appearance
+        );
     }
 
-    private static void validate(String appearance, String model, TypeId typeId) {
-        if (model == null || model.isBlank()) {
-            throw new IllegalArgumentException("model can't be null");
-        }
+    public static Android restore(
+            AndroidId androidId,
+            TypeId typeId,
+            AndroidId operatorId,
+            Status status,
+            int number,
+            String description,
+            String model,
+            String appearance
+    ) {
+        return new Android(
+                androidId,
+                typeId,
+                operatorId,
+                status,
+                number,
+                description,
+                model,
+                appearance
+        );
+    }
 
-        if (appearance == null || appearance.isBlank()) {
-            throw new IllegalArgumentException("appearance can't be null");
-        }
-
-        if (typeId == null) {
-            throw new IllegalArgumentException("typeId can't be null");
-        }
+    public void delete() {
+        this.status = Status.INACTIVE;
     }
 
     public String getName(char typeCode) {
@@ -63,7 +97,21 @@ public class Android extends AggregateRoot<AndroidId> {
         return this.model;
     }
 
-    public void delete() {
-        this.status = Status.INACTIVE;
+    private static void validate(
+            String appearance,
+            String model,
+            TypeId typeId
+    ) {
+        if (model == null || model.isBlank()) {
+            throw new IllegalArgumentException("model can't be null");
+        }
+
+        if (appearance == null || appearance.isBlank()) {
+            throw new IllegalArgumentException("appearance can't be null");
+        }
+
+        if (typeId == null) {
+            throw new IllegalArgumentException("typeId can't be null");
+        }
     }
 }
